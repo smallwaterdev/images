@@ -1,0 +1,11 @@
+--2018-07-13 23:12:35--  https://xxx.xcity.jp/idol/?num=24
+Resolving xxx.xcity.jp... 210.197.70.4
+Connecting to xxx.xcity.jp|210.197.70.4|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+Saving to: ‘index.html?num=24’
+
+index.html?num=24                                [<=>                                                                                          ]       0  --.-KB/s               index.html?num=24                                [ <=>                                                                                         ]  45.71K  --.-KB/s    in 0.1s    
+
+2018-07-13 23:12:36 (314 KB/s) - ‘index.html?num=24’ saved [46806]
+
