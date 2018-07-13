@@ -68,7 +68,7 @@ function getStarnameProfileUrl(starname, callback){
 
 
 connect(()=>{
-    getStarnames({skip:220, limit:2000, sort:{releaseDate:-1}}, (results)=>{
+    getStarnames({skip:0, limit:400, sort:{name:-1}}, (results)=>{
         if(results.success){
             scheduler(results.value, 10, (star, __callback__)=>{
                 getStarnameProfileUrl(star.name, (data)=>{
