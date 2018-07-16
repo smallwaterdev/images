@@ -68,11 +68,12 @@ function getStarnameProfileUrl(starname, callback){
 
 
 connect(()=>{
-    getStarnames({skip:0, limit:100, sort:{releaseDate:-1}}, (results)=>{
+    getStarnames({skip:100, limit:200, sort:{releaseDate:-1}}, (results)=>{
         if(results.success){
             scheduler(results.value, 10, (star, __callback__)=>{
                 getStarnameProfileUrl(star.name, (data)=>{
                     if(data.success){
+                        console.log('.... get .....' + star.name);
                         localPushImageUrl(star.name, data.value, __callback__);
                     }else{
                         __callback__();
