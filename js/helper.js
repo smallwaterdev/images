@@ -3,8 +3,9 @@ const http = require('http');
 const fs = require('fs');
 const contentDB = require('./db_models/content_db');
 const metaDB = require('./db_models/meta_db');
+const profileDB = require('./db_models/profile_db');
 const EventEmitter = require('events');
-
+const request = require('request');
 
 const mongoose = require('mongoose');
 const bluebird = require('bluebird');
@@ -57,6 +58,57 @@ function donwloadImage(url, to, filename, callback){
         }
     });
 }
+
+function httpPushImageUrl( starname, url, callback){
+    request(
+        {
+            url:'http://www.javferry.com/profile/update/image',
+            json:{
+                field: 'starname',
+                value: starname,
+                profile_url: url
+            },
+            headers:{
+                token: 'store_password'
+            }
+        },
+        (err, res, body)=>{
+            if(err){
+                callback({success: false, reasons:[err.message]});
+            }else if(res.statusCode !== 200){
+                callback({success: false, reasons:[`Invalid status code ${re.statusCode}`]});
+            }else{
+                callback({success: true, reasons:[], value: body});
+            }
+        }
+    )
+}
+function localPushImageUrl( starname, url, callback){
+    profileDB.findOne({field: "starname", value: starname}, (err,item)=>{
+        if(err){
+            callback({success: false, reasons:[err.message]});
+        }else if(item){
+            item.profile_url = url;
+            item.save((err,result)=>{
+                if(err){
+                    callback({success: false, reasons:[err.message]});
+                }else{
+                    callback({success: true, reasons:[], value: result});
+                }
+            });
+        }else{
+            profileDB.create({field: 'starname', value:starname, profile_url:url}, (err, result)=>{
+                if(err){
+                    callback({success: false, reasons:[err.message]});
+                }else{
+                    callback({success: true, reasons:[], value: result});
+                }
+            });
+        }
+    });
+}
+module.exports.localPushImageUrl = localPushImageUrl;
+module.exports.httpPushImageUrl = httpPushImageUrl;
 /**
  * A scheduler function that start #numWorker workers to run the task function:
  * @argument arr A array of Item that is the input of the task
