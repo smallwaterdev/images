@@ -89,13 +89,13 @@ function overall(skip, limit){
     });
 }
 connect(()=>{
-    let counter = 0;
-    let limit = 3;
+    let counter = 300;
+    let limit = 30;
     let x = setInterval(()=>{
         overall(counter, limit);
         counter+= limit;
         if(counter > 6248){
             clearInterval(x);
         }
-    }, 4000);
+    }, 10000);
 });
