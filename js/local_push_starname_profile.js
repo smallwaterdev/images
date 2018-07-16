@@ -92,6 +92,7 @@ connect(()=>{
     let counter = 300;
     let limit = 30;
     let x = setInterval(()=>{
+        console.log(counter);
         overall(counter, limit);
         counter+= limit;
         if(counter > 6248){
