@@ -66,9 +66,8 @@ function getStarnameProfileUrl(starname, callback){
     );
 }
 
-
-connect(()=>{
-    getStarnames({skip:100, limit:200, sort:{releaseDate:-1}}, (results)=>{
+function overall(skip, limit){
+    getStarnames({skip:skip, limit:limit, sort:{releaseDate:-1}}, (results)=>{
         if(results.success){
             scheduler(results.value, 10, (star, __callback__)=>{
                 getStarnameProfileUrl(star.name, (data)=>{
@@ -81,11 +80,22 @@ connect(()=>{
                 });
             }, (err)=>{
                 console.log('done', err);
-                disconnect();
+                //disconnect();
             }); 
         }else{
             console.log('err', results.reasons);
-            disconnect();
+            //disconnect();
         }
     });
+}
+connect(()=>{
+    let counter = 0;
+    let limit = 3;
+    let x = setInterval(()=>{
+        overall(counter, limit);
+        counter+= limit;
+        if(counter > 6248){
+            clearInterval(x);
+        }
+    }, 4000);
 });
